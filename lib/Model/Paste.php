@@ -76,6 +76,16 @@ class Paste extends AbstractModel
         $data['@context']       = '?jsonld=paste';
         $this->_data            = $data;
 
+        if (
+            $this->_conf->getKey('recipient')
+            && (
+                array_key_exists($this->_conf->getKey('recipient_http_header'), $_SERVER)
+                && $_SERVER[$this->_conf->getKey('recipient_http_header')] !== $this->_data['adata'][4]
+            )
+        ) {
+            throw new Exception('Access to document is forbidden', 81);
+        }
+
         return $this->_data;
     }
 
@@ -199,6 +209,25 @@ class Paste extends AbstractModel
         return
             (array_key_exists('adata', $this->_data) && $this->_data['adata'][2] === 1) ||
             (array_key_exists('opendiscussion', $this->_data['meta']) && $this->_data['meta']['opendiscussion']);
+    }
+
+    /**
+     * Get the paste's recipient.
+     *
+     * @access public
+     * @throws Exception
+     * @return string|null
+     */
+    public function getRecipient()
+    {
+        if (!array_key_exists('adata', $this->_data) && !array_key_exists('data', $this->_data)) {
+            $this->get();
+        }
+        if (empty($this->_data['adata'][4])) {
+            return null;
+        } else {
+            return $this->_data['adata'][4];
+        };
     }
 
     /**

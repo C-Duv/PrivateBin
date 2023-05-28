@@ -73,7 +73,7 @@ endif;
 ?>
 		<script type="text/javascript" data-cfasync="false" src="js/purify-2.4.6.js" integrity="sha512-+jcx+EqNbaFT4OHS86zGwU1SNAAZ7hG2pJlwMpXoe9AvTp37BrXMQ29g2GhdyQHTvYWaNlTQIkWXYM0Lvt8GiQ==" crossorigin="anonymous"></script>
 		<script type="text/javascript" data-cfasync="false" src="js/legacy.js?<?php echo rawurlencode($VERSION); ?>" integrity="sha512-LYos+qXHIRqFf5ZPNphvtTB0cgzHUizu2wwcOwcwz/VIpRv9lpcBgPYz4uq6jx0INwCAj6Fbnl5HoKiLufS2jg==" crossorigin="anonymous"></script>
-		<script type="text/javascript" data-cfasync="false" src="js/privatebin.js?<?php echo rawurlencode($VERSION); ?>" integrity="sha512-ST1B/QBH9m/TImh2pzKU88qbgwqto4N34X8bnn9+Iuye3x2pTb3aMiX5gU4gh15T7HCTw2jehB9+BtC6a/M81A==" crossorigin="anonymous"></script>
+		<script type="text/javascript" data-cfasync="false" src="js/privatebin.js?<?php echo rawurlencode($VERSION); ?>" integrity="sha512-TQ4ZRRLgeyRKX2kV0jFaCoOJxBwjt8rbyLemwKPs86isAo4IeKuDp4iIatT7NKO3sAA/TlwBdFzlJWgi4g2Vbw==" crossorigin="anonymous"></script>
 		<!-- icon -->
 		<link rel="apple-touch-icon" href="<?php echo I18n::encode($BASEPATH); ?>img/apple-touch-icon.png" sizes="180x180" />
 		<link rel="icon" type="image/png" href="img/favicon-32x32.png" sizes="32x32" />
@@ -364,6 +364,15 @@ if ($PASSWORD) :
 					</li>
 <?php
 endif;
+if ($RECIPIENT) :
+?>
+					<li>
+						<div id="recipient" class="navbar-form hidden">
+							<input type="text" id="recipientinput" placeholder="<?php echo I18n::_('Recipient'); ?>" class="form-control" size="23" />
+						</div>
+					</li>
+<?php
+endif;
 if ($FILEUPLOAD) :
 ?>
 					<li id="attach" class="hidden dropdown">
@@ -464,6 +473,9 @@ endif;
 ?>
 				<div id="remainingtime" role="alert" class="hidden alert alert-info">
 					<span class="glyphicon glyphicon-fire" aria-hidden="true"></span>
+				</div>
+				<div id="recipientinfo" role="alert" class="hidden alert alert-info">
+					<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
 				</div>
 <?php
 if ($FILEUPLOAD) :

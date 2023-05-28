@@ -32,6 +32,7 @@
     "Burn after reading": "Burn after reading",
     "Open discussion": "Open discussion",
     "Password (recommended)": "Password (recommended)",
+    "Recipient": "Recipient",
     "Discussion": "Discussion",
     "Toggle navigation": "Toggle navigation",
     "%d seconds": [
@@ -78,6 +79,7 @@
     ],
     "Never": "Never",
     "Note: This is a test service: Data may be deleted anytime. Kittens will die if you abuse this service.": "Note: This is a test service: Data may be deleted anytime. Kittens will die if you abuse this service.",
+    "This document is for %s.": "This document is for %s.",
     "This document will expire in %d seconds.": [
         "This document will expire in %d second. (singular)",
         "This document will expire in %d seconds. (1st plural)",

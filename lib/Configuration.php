@@ -41,6 +41,8 @@ class Configuration
             'discussion'               => true,
             'opendiscussion'           => false,
             'password'                 => true,
+            'recipient'                => false,
+            'recipient_http_header'    => 'HTTP_X_FORWARDED_USER',
             'fileupload'               => false,
             'burnafterreadingselected' => false,
             'defaultformatter'         => 'plaintext',

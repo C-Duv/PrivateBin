@@ -403,6 +403,7 @@ class Controller
         $page->assign('NOTICE', I18n::_($this->_conf->getKey('notice')));
         $page->assign('BURNAFTERREADINGSELECTED', $this->_conf->getKey('burnafterreadingselected'));
         $page->assign('PASSWORD', $this->_conf->getKey('password'));
+        $page->assign('RECIPIENT', $this->_conf->getKey('recipient'));
         $page->assign('FILEUPLOAD', $this->_conf->getKey('fileupload'));
         $page->assign('ZEROBINCOMPATIBILITY', $this->_conf->getKey('zerobincompatibility'));
         $page->assign('LANGUAGESELECTION', $languageselection);

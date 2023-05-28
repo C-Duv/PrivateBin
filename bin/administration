@@ -231,6 +231,7 @@ EOT, PHP_EOL;
                 $format = $paste['adata'][1];
                 $discussion = $paste['adata'][2];
                 $burn = $paste['adata'][3];
+                $recipient = $paste['adata'][4];
             } else {
                 $format = array_key_exists('formatter', $paste['meta']) ? $paste['meta']['formatter'] : 'plaintext';
                 $discussion = array_key_exists('opendiscussion', $paste['meta']) ? $paste['meta']['opendiscussion'] : false;

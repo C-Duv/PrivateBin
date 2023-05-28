@@ -21,6 +21,12 @@ opendiscussion = false
 ; enable or disable the password feature, defaults to true
 password = true
 
+; enable or disable the recipient feature, defaults to false
+recipient = false
+
+; if recipient feature is enabled, sets the HTTP header to read recipient from
+recipient_http_header = "HTTP_X_FORWARDED_USER"
+
 ; enable or disable the file upload feature, defaults to false
 fileupload = false
 

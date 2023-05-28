@@ -166,6 +166,18 @@ jQuery.PrivateBin = (function($, RawDeflate) {
         {
             return (this.v === 1 ? this.meta.opendiscussion : this.adata[2]);
         }
+
+        /**
+         * get the recipient
+         *
+         * @name Paste.getRecipient
+         * @function
+         * @return {string}
+         */
+        this.getRecipient = function()
+        {
+            return this.adata[4];
+        }
     }
 
     /**
@@ -1726,6 +1738,7 @@ jQuery.PrivateBin = (function($, RawDeflate) {
             $loadingIndicator,
             $statusMessage,
             $remainingTime,
+            $recipient,
             currentIcon,
             customHandler;
 
@@ -1879,6 +1892,20 @@ jQuery.PrivateBin = (function($, RawDeflate) {
         };
 
         /**
+         * display recipient
+         *
+         * This automatically passes the text to I18n for translation.
+         *
+         * @name   Alert.showRecipient
+         * @function
+         * @param  {string|array} message     string, use an array for %s/%d options
+         */
+        me.showRecipient = function(message)
+        {
+            handleNotification(1, $recipient, message);
+        };
+
+        /**
          * shows a loading message, optionally with a percentage
          *
          * This automatically passes all texts to the i10s module.
@@ -1970,6 +1997,7 @@ jQuery.PrivateBin = (function($, RawDeflate) {
             $loadingIndicator = $('#loadingindicator');
             $statusMessage = $('#status');
             $remainingTime = $('#remainingtime');
+            $recipient = $('#recipientinfo');
 
             currentIcon = [
                 'glyphicon-time', // loading icon
@@ -1994,6 +2022,7 @@ jQuery.PrivateBin = (function($, RawDeflate) {
         let $pasteSuccess,
             $pasteUrl,
             $remainingTime,
+            $recipient,
             $shortenButton;
 
         /**
@@ -2142,6 +2171,21 @@ jQuery.PrivateBin = (function($, RawDeflate) {
         };
 
         /**
+         * shows the recipient
+         *
+         * @name PasteStatus.showRecipient
+         * @function
+         * @param {Paste} paste
+         */
+        me.showRecipient = function(paste)
+        {
+            Alert.showRecipient(['This document is for %s.', paste.getRecipient()]);
+
+            // in the end, display notification
+            $remainingTime.removeClass('hidden');
+        };
+
+        /**
          * hides the remaining time and successful upload notification
          *
          * @name PasteStatus.hideMessages
@@ -2150,6 +2194,7 @@ jQuery.PrivateBin = (function($, RawDeflate) {
         me.hideMessages = function()
         {
             $remainingTime.addClass('hidden');
+            $recipient.addClass('hidden');
             $pasteSuccess.addClass('hidden');
         };
 
@@ -2166,6 +2211,7 @@ jQuery.PrivateBin = (function($, RawDeflate) {
             $pasteSuccess = $('#pastesuccess');
             // $pasteUrl is saved in me.createPasteNotification() after creation
             $remainingTime = $('#remainingtime');
+            $recipient = $('#recipientinfo');
             $shortenButton = $('#shortenbutton');
 
             // bind elements
@@ -3585,6 +3631,8 @@ jQuery.PrivateBin = (function($, RawDeflate) {
             $openDiscussionOption,
             $password,
             $passwordInput,
+            $recipient,
+            $recipientInput,
             $rawTextButton,
             $downloadTextButton,
             $qrCodeLink,
@@ -4044,6 +4092,7 @@ jQuery.PrivateBin = (function($, RawDeflate) {
             $newButton.removeClass('hidden');
             $openDiscussionOption.removeClass('hidden');
             $password.removeClass('hidden');
+            $recipient.removeClass('hidden');
             $sendButton.removeClass('hidden');
 
             createButtonsDisplayed = true;
@@ -4068,6 +4117,7 @@ jQuery.PrivateBin = (function($, RawDeflate) {
             $burnAfterReadingOption.addClass('hidden');
             $openDiscussionOption.addClass('hidden');
             $password.addClass('hidden');
+            $recipient.addClass('hidden');
             $attach.addClass('hidden');
 
             createButtonsDisplayed = false;
@@ -4348,6 +4398,19 @@ jQuery.PrivateBin = (function($, RawDeflate) {
         };
 
         /**
+         * returns the entered recipient
+         *
+         * @name   TopNav.getRecipient
+         * @function
+         * @return {string}
+         */
+        me.getRecipient = function()
+        {
+            // when recipient is not set $recipientInput.val() will return ''
+            return $recipientInput.val() || '';
+        };
+
+        /**
          * returns the element where custom attachments can be placed
          *
          * Used by AttachmentViewer when an attachment is cloned here.
@@ -4439,6 +4502,8 @@ jQuery.PrivateBin = (function($, RawDeflate) {
             $openDiscussionOption = $('#opendiscussionoption');
             $password = $('#password');
             $passwordInput = $('#passwordinput');
+            $recipient = $('#recipient');
+            $recipientInput = $('#recipientinput');
             $rawTextButton = $('#rawtextbutton');
             $downloadTextButton = $('#downloadtextbutton');
             $retryButton = $('#retrybutton');
@@ -4951,7 +5016,8 @@ jQuery.PrivateBin = (function($, RawDeflate) {
             ServerInteraction.setUnencryptedData('adata', [
                 null, format,
                 TopNav.getOpenDiscussion() ? 1 : 0,
-                TopNav.getBurnAfterReading() ? 1 : 0
+                TopNav.getBurnAfterReading() ? 1 : 0,
+                TopNav.getRecipient()
             ]);
             ServerInteraction.setUnencryptedData('meta', {'expire': TopNav.getExpiration()});
 
@@ -5228,6 +5294,11 @@ jQuery.PrivateBin = (function($, RawDeflate) {
 
             // shows the remaining time (until) deletion
             PasteStatus.showRemainingTime(paste);
+
+            // shows the recipient if any
+            if (paste.getRecipient()) {
+                PasteStatus.showRecipient(paste);
+            }
 
             Promise.all(decryptionPromises)
                 .then(() => {
